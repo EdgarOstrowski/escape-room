@@ -3,6 +3,7 @@ import pygame
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
 pygame.init()
 
@@ -16,15 +17,14 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("My Game")
 
 done = False
-
 clock = pygame.time.Clock()
-
-font = pygame.font.Font(None, 50)
+font = pygame.font.SysFont('Calibri', 50, True, False)
 
 frame_count = 0
 frame_rate = 60
-start_time = 3600 # sec
+start_time = 90  # sec
 
+pause = True
 
 text = font.render('00:00', True, WHITE)
 width_offset = text.get_width() / 2
@@ -34,6 +34,9 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                pause = False
 
     screen.fill(BLACK)
 
@@ -46,12 +49,19 @@ while not done:
 
     output_str = '{0:02}:{1:02}'.format(minutes, seconds)
 
-    text = font.render(output_str, True, WHITE)
+    if minutes >= 1:
+        text_color = WHITE
+    else:
+        text_color = RED
+
+    text = font.render(output_str, True, text_color)
 
     screen.blit(text, [screen_width / 2 - width_offset,
                        screen_height / 2 - height_offset])
 
-    frame_count += 1
+    if not pause:
+        frame_count += 1
+
     clock.tick(frame_rate)
 
     pygame.display.flip()
