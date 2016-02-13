@@ -30,6 +30,9 @@ text = font.render('00:00', True, WHITE)
 width_offset = text.get_width() / 2
 height_offset = text.get_height() / 2
 
+seconds = 0
+total_time = start_time
+
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -40,7 +43,10 @@ while not done:
 
     screen.fill(BLACK)
 
-    total_time = start_time - (frame_count // frame_rate)
+    if frame_count == frame_rate:
+        total_time -= 1
+        frame_count = 0
+
     if total_time < 0:
         total_time = 0
 
