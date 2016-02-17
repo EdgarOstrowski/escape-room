@@ -1,37 +1,28 @@
 import pygame
 
-
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
 pygame.init()
 
+screen_size = [700, 500]
+screen = pygame.display.set_mode(screen_size)
 
-screen_width = 700
-screen_height = 500
-size = [screen_width, screen_height]
+pygame.display.set_caption("Escape Room")
 
-screen = pygame.display.set_mode(size)
-
-pygame.display.set_caption("My Game")
-
-done = False
 clock = pygame.time.Clock()
 font = pygame.font.SysFont('Calibri', 50, True, False)
 
 frame_count = 0
 frame_rate = 60
-start_time = 90  # sec
+total_time = 90  # sec
 
+done = False
 pause = True
 
 text = font.render('00:00', True, WHITE)
-width_offset = text.get_width() / 2
-height_offset = text.get_height() / 2
-
-seconds = 0
-total_time = start_time
+text_offset = [text.get_width() / 2, text.get_height() / 2]
 
 while not done:
     for event in pygame.event.get():
@@ -62,8 +53,8 @@ while not done:
 
     text = font.render(output_str, True, text_color)
 
-    screen.blit(text, [screen_width / 2 - width_offset,
-                       screen_height / 2 - height_offset])
+    screen.blit(text, [screen_size[0] / 2 - text_offset[0],
+                       screen_size[1] / 2 - text_offset[1]])
 
     if not pause:
         frame_count += 1
